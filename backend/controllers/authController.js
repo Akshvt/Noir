@@ -25,8 +25,11 @@ exports.signup = async (req, res) => {
             return res.status(400).json({ message: 'Email already registered' });
         }
 
-        // Let's make "admin@gmail.com" an admin user automatically for testing.
-        const role = email.toLowerCase() === 'admin@gmail.com' ? 'admin' : 'user';
+        // Check if the registered email matches the designated admin email in your environment variables.
+        // If no ADMIN_EMAIL is set, default to something obscure or require manual DB update.
+        // Using 'admin@gmail.com' as fallback so your current testing isn't abruptly broken until you set ADMIN_EMAIL.
+        const adminEmail = (process.env.ADMIN_EMAIL || 'admin@gmail.com').toLowerCase();
+        const role = email.toLowerCase() === adminEmail ? 'admin' : 'user';
         const user = await User.create({ name, email, password, role });
         const token = generateToken(user._id);
         setCookie(res, token);
