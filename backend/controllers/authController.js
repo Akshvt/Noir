@@ -52,6 +52,14 @@ exports.login = async (req, res) => {
         if (user.isBanned) {
             return res.status(403).json({ message: 'Your account has been banned' });
         }
+
+        // Auto-upgrade existing user to admin on login if their email matches the env variable
+        const adminEmail = (process.env.ADMIN_EMAIL || 'admin@gmail.com').toLowerCase();
+        if (user.role !== 'admin' && email.toLowerCase() === adminEmail) {
+            user.role = 'admin';
+            await user.save({ validateBeforeSave: false });
+        }
+
         const token = generateToken(user._id);
         setCookie(res, token);
         res.json({ user, token });
