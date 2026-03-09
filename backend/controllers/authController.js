@@ -24,7 +24,10 @@ exports.signup = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Email already registered' });
         }
-        const user = await User.create({ name, email, password });
+
+        // Let's make "admin@gmail.com" an admin user automatically for testing.
+        const role = email.toLowerCase() === 'admin@gmail.com' ? 'admin' : 'user';
+        const user = await User.create({ name, email, password, role });
         const token = generateToken(user._id);
         setCookie(res, token);
         res.status(201).json({ user, token });
