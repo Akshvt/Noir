@@ -8,15 +8,15 @@ export default function TrailerModal({ videoKey, onClose }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
                     onClick={onClose}
                 >
                     <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ type: 'spring', damping: 25 }}
-                        className="relative w-full max-w-4xl aspect-video bg-[#221012] rounded-xl overflow-hidden shadow-2xl border border-primary/20"
+                        initial={{ scale: 0.85, opacity: 0, y: 30 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.85, opacity: 0, y: 30 }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                        className="relative w-full max-w-4xl aspect-video rounded-xl overflow-hidden shadow-2xl border border-primary/20 bg-surface"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
@@ -35,8 +35,8 @@ export default function TrailerModal({ videoKey, onClose }) {
                             />
                         ) : (
                             <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-                                <span className="material-symbols-outlined text-6xl text-primary/40">videocam_off</span>
-                                <p className="text-lg text-slate-400">Trailer for this movie is currently unavailable.</p>
+                                <span className="material-symbols-outlined text-6xl text-primary/30">videocam_off</span>
+                                <p className="text-lg text-slate-400">Trailer currently unavailable</p>
                             </div>
                         )}
                     </motion.div>

@@ -1,0 +1,29 @@
+
+> frontend@0.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 536 modules transformed.
+[31m✗[39m Build failed in 2.31s
+[31merror during build:
+[31msrc/pages/MovieDetails.jsx (6:9): "addToHistory" is not exported by "src/features/watchHistorySlice.js", imported by "src/pages/MovieDetails.jsx".[31m
+file: [36mC:/Users/Akshat/Desktop/moviestream/frontend/src/pages/MovieDetails.jsx:6:9[31m
+[33m
+4: import { fetchMovieDetails } from '../features/movieSlice';
+5: import { addFavorite, removeFavorite, fetchFavorites } from '../features/favoriteSlice';
+6: import { addToHistory } from '../features/watchHistorySlice';
+            ^
+7: import { posterUrl, backdropUrl } from '../api/tmdb';
+8: import { PLACEHOLDER_POSTER, PLACEHOLDER_BACKDROP, getYear } from '../utils/helpers';
+[31m
+    at getRollupError (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at FunctionScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at ReturnValueScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at TrackingScope.findVariable (file:///C:/Users/Akshat/Desktop/moviestream/frontend/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)[39m

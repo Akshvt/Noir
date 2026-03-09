@@ -10,7 +10,7 @@ export default function Explore() {
     const [searchParams] = useSearchParams();
     const sortType = searchParams.get('sort') || 'popular';
     const dispatch = useDispatch();
-    const { popular, topRated, trending, genres } = useSelector((state) => state.movies);
+    const { popular, topRated, trending } = useSelector((state) => state.movies);
 
     const currentList = sortType === 'top_rated' ? topRated : sortType === 'trending' ? trending : popular;
 
@@ -36,16 +36,19 @@ export default function Explore() {
     const titleMap = { popular: 'Popular Movies', top_rated: 'Top Rated', trending: 'Trending Now' };
 
     return (
-        <main className="flex-1 pt-20 px-4 md:px-20 pb-20 min-h-screen">
-            <div className="mx-auto max-w-7xl">
-                <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-                    <h1 className="text-3xl font-black">{titleMap[sortType]}</h1>
+        <main className="flex-1 pt-24 px-6 lg:px-20 pb-20 min-h-screen">
+            <div className="mx-auto max-w-[1440px]">
+                <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+                    <h1 className="text-3xl font-black italic">{titleMap[sortType]}</h1>
                     <div className="flex gap-2">
                         {['popular', 'top_rated', 'trending'].map(s => (
                             <Link
                                 key={s}
                                 to={`/explore?sort=${s}`}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${sortType === s ? 'bg-primary text-white' : 'bg-primary/10 text-slate-300 hover:bg-primary/20'}`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${sortType === s
+                                    ? 'bg-primary text-white font-bold shadow-primary-glow'
+                                    : 'bg-white/5 border border-glass-border text-slate-400 hover:bg-white/10 hover:text-white'
+                                    }`}
                             >
                                 {s === 'top_rated' ? 'Top Rated' : s.charAt(0).toUpperCase() + s.slice(1)}
                             </Link>
@@ -64,7 +67,7 @@ export default function Explore() {
                 {currentList.loading && <div className="mt-8"><SkeletonGrid count={5} /></div>}
 
                 {!hasMore && currentList.results.length > 0 && (
-                    <p className="text-center text-slate-500 mt-12">You've reached the end</p>
+                    <p className="text-center text-slate-600 mt-12 uppercase tracking-widest text-xs">You've reached the end</p>
                 )}
             </div>
         </main>

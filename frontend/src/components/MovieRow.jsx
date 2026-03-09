@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import MovieCard from './MovieCard';
 import TVShowCard from './TVShowCard';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function MovieRow({ title, items, type = 'movie', viewAllLink }) {
     const scrollRef = useRef(null);
+    const sectionRef = useRef(null);
+    const titleRef = useRef(null);
 
     const scroll = (direction) => {
         if (scrollRef.current) {
@@ -13,25 +19,61 @@ export default function MovieRow({ title, items, type = 'movie', viewAllLink }) 
         }
     };
 
+    useEffect(() => {
+        if (!sectionRef.current || !titleRef.current) return;
+
+        gsap.fromTo(titleRef.current,
+            { opacity: 0, x: -30 },
+            {
+                opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none',
+                }
+            }
+        );
+
+        if (scrollRef.current) {
+            const cards = scrollRef.current.children;
+            gsap.fromTo(cards,
+                { opacity: 0, x: 60 },
+                {
+                    opacity: 1, x: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none',
+                    }
+                }
+            );
+        }
+    }, [items]);
+
     return (
-        <section className="pl-4 md:pl-20">
-            <div className="flex items-center justify-between pr-4 md:pr-20 mb-6">
-                <h2 className="text-2xl font-bold tracking-tight text-white">{title}</h2>
-                <div className="flex items-center gap-3">
-                    <button onClick={() => scroll('left')} className="hidden md:flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-slate-400 hover:text-primary hover:bg-primary/20 transition-colors">
-                        <span className="material-symbols-outlined text-sm">chevron_left</span>
-                    </button>
-                    <button onClick={() => scroll('right')} className="hidden md:flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-slate-400 hover:text-primary hover:bg-primary/20 transition-colors">
-                        <span className="material-symbols-outlined text-sm">chevron_right</span>
-                    </button>
+        <section ref={sectionRef}>
+            <div className="px-6 lg:px-20 mb-6 flex justify-between items-end">
+                <div ref={titleRef}>
+                    <h3 className="text-2xl font-bold text-white">{title}</h3>
+                    <p className="text-slate-500 text-sm">Curated based on global viewership</p>
+                </div>
+                <div className="flex items-center gap-4">
+                    <div className="hidden md:flex items-center gap-2">
+                        <button onClick={() => scroll('left')} className="h-9 w-9 flex items-center justify-center rounded-lg bg-surface border border-border-dark hover:border-primary/50 text-slate-400 hover:text-white transition-all">
+                            <span className="material-symbols-outlined text-sm">chevron_left</span>
+                        </button>
+                        <button onClick={() => scroll('right')} className="h-9 w-9 flex items-center justify-center rounded-lg bg-surface border border-border-dark hover:border-primary/50 text-slate-400 hover:text-white transition-all">
+                            <span className="material-symbols-outlined text-sm">chevron_right</span>
+                        </button>
+                    </div>
                     {viewAllLink && (
-                        <Link to={viewAllLink} className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
-                            View All <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
+                        <Link to={viewAllLink} className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                            View All <span className="material-symbols-outlined text-sm">chevron_right</span>
                         </Link>
                     )}
                 </div>
             </div>
-            <div ref={scrollRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-4 pr-10">
+            <div ref={scrollRef} className="no-scrollbar flex gap-6 overflow-x-auto px-6 lg:px-20 pb-4">
                 {items?.map((item, idx) =>
                     type === 'tv' ? (
                         <TVShowCard key={item.id} item={item} />
@@ -40,10 +82,10 @@ export default function MovieRow({ title, items, type = 'movie', viewAllLink }) 
                     )
                 )}
                 {(!items || items.length === 0) && (
-                    <div className="flex gap-5">
-                        {[...Array(6)].map((_, i) => (
-                            <div key={i} className={`flex-none ${type === 'tv' ? 'w-72 md:w-96' : 'w-48 md:w-64'}`}>
-                                <div className={`skeleton ${type === 'tv' ? 'aspect-video' : 'aspect-[2/3]'} w-full rounded-xl`}></div>
+                    <div className="flex gap-6">
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className={`flex-none ${type === 'tv' ? 'w-72 md:w-96' : 'w-52 md:w-72'}`}>
+                                <div className={`skeleton ${type === 'tv' ? 'aspect-video' : 'aspect-[2/3]'} w-full rounded-2xl`}></div>
                             </div>
                         ))}
                     </div>

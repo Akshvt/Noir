@@ -2,48 +2,30 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
     return (
-        <footer className="border-t border-primary/10 bg-[#221012] py-12 px-4 md:px-20">
-            <div className="mx-auto max-w-[1440px] grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div className="space-y-4">
+        <footer className="mt-auto border-t border-border-dark py-16 px-6 lg:px-20 bg-surface">
+            <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row justify-between items-center gap-8">
+                <div className="flex flex-col items-center md:items-start gap-4">
                     <Link to="/" className="flex items-center gap-2 text-primary">
-                        <span className="material-symbols-outlined text-2xl">movie_filter</span>
-                        <h2 className="text-lg font-black leading-tight tracking-tighter uppercase">MOVIESTREAM</h2>
+                        <svg className="w-6 h-6 opacity-50" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor" />
+                        </svg>
+                        <span className="text-sm font-bold uppercase tracking-widest text-slate-500">© Akshat, 2026 NOIR</span>
                     </Link>
-                    <p className="text-slate-400 text-sm">Experience the best of cinematic storytelling from around the world. Stream the latest movies and TV shows anytime, anywhere.</p>
                 </div>
-                <div className="space-y-4">
-                    <h4 className="font-bold text-slate-100">Explore</h4>
-                    <ul className="space-y-2 text-sm text-slate-400">
-                        <li><Link to="/explore" className="hover:text-primary transition-colors">Movies</Link></li>
-                        <li><Link to="/explore?type=tv" className="hover:text-primary transition-colors">TV Shows</Link></li>
-                        <li><Link to="/explore?sort=top_rated" className="hover:text-primary transition-colors">Top Rated</Link></li>
-                        <li><Link to="/explore?sort=upcoming" className="hover:text-primary transition-colors">Upcoming</Link></li>
-                    </ul>
+                <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                    <a className="hover:text-primary transition-colors" href="#">Privacy</a>
+                    <a className="hover:text-primary transition-colors" href="#">Terms</a>
+                    <a className="hover:text-primary transition-colors" href="#">Support</a>
+                    <a className="hover:text-primary transition-colors" href="#">Cookies</a>
                 </div>
-                <div className="space-y-4">
-                    <h4 className="font-bold text-slate-100">Support</h4>
-                    <ul className="space-y-2 text-sm text-slate-400">
-                        <li><a className="hover:text-primary transition-colors" href="#">Help Center</a></li>
-                        <li><a className="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
-                        <li><a className="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
-                        <li><a className="hover:text-primary transition-colors" href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div className="space-y-4">
-                    <h4 className="font-bold text-slate-100">Subscribe</h4>
-                    <div className="flex gap-2">
-                        <input className="flex-1 rounded-sm bg-primary/10 border-none text-sm text-slate-100 px-3 py-2 focus:ring-primary" placeholder="Email Address" type="email" />
-                        <button className="bg-primary text-white font-bold py-2 px-4 rounded-sm hover:brightness-110 transition-all">Join</button>
+                <div className="flex gap-4">
+                    <div className="glass-morphism size-10 rounded-full flex items-center justify-center hover:text-primary cursor-pointer transition-all">
+                        <span className="material-symbols-outlined text-xl">share</span>
                     </div>
-                    <div className="flex gap-4 pt-2">
-                        <a className="text-slate-400 hover:text-primary" href="#"><span className="material-symbols-outlined">public</span></a>
-                        <a className="text-slate-400 hover:text-primary" href="#"><span className="material-symbols-outlined">share</span></a>
-                        <a className="text-slate-400 hover:text-primary" href="#"><span className="material-symbols-outlined">link</span></a>
+                    <div className="glass-morphism size-10 rounded-full flex items-center justify-center hover:text-primary cursor-pointer transition-all">
+                        <span className="material-symbols-outlined text-xl">language</span>
                     </div>
                 </div>
-            </div>
-            <div className="mt-12 text-center text-xs text-slate-500">
-                © 2024 MOVIESTREAM Inc. All rights reserved.
             </div>
         </footer>
     );
