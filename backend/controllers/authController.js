@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    return jwt.sign({ id }, process.env.JWT_SECRET || 'moviestream_jwt_secret_key_2024', { expiresIn: '7d' });
 };
 
 const setCookie = (res, token) => {
