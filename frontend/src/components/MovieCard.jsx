@@ -4,7 +4,7 @@ import { PLACEHOLDER_POSTER, getYear } from '../utils/helpers';
 import { motion } from 'framer-motion';
 import { useRef, useState, useCallback } from 'react';
 
-export default function MovieCard({ item, index }) {
+export default function MovieCard({ item, index, className }) {
     const mediaType = item.media_type || 'movie';
     const title = item.title || item.name || 'Untitled';
     const date = item.release_date || item.first_air_date;
@@ -35,7 +35,7 @@ export default function MovieCard({ item, index }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index ? Math.min(index * 0.06, 0.5) : 0, duration: 0.4, ease: 'easeOut' }}
         >
-            <Link to={`/${mediaType}/${item.id}`} className="movie-card group relative flex-none w-52 md:w-72 cursor-pointer block">
+            <Link to={`/${mediaType}/${item.id}`} className={`movie-card group relative cursor-pointer block ${className || 'flex-none w-52 md:w-72'}`}>
                 <div
                     ref={cardRef}
                     onMouseMove={handleMouseMove}

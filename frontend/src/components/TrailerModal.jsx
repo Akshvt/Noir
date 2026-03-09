@@ -1,7 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
 
 export default function TrailerModal({ videoKey, onClose }) {
-    return (
+    if (typeof document === 'undefined') return null;
+
+    return createPortal(
         <AnimatePresence>
             {videoKey !== undefined && (
                 <motion.div
@@ -21,7 +24,7 @@ export default function TrailerModal({ videoKey, onClose }) {
                     >
                         <button
                             onClick={onClose}
-                            className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white hover:bg-primary transition-colors"
+                            className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white hover:bg-primary hover:scale-110 active:scale-95 transition-all"
                         >
                             <span className="material-symbols-outlined">close</span>
                         </button>
@@ -42,6 +45,7 @@ export default function TrailerModal({ videoKey, onClose }) {
                     </motion.div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }

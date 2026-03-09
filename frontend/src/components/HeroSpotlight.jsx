@@ -1,14 +1,27 @@
 import { Link } from 'react-router-dom';
 import { backdropUrl } from '../api/tmdb';
 import { PLACEHOLDER_BACKDROP } from '../utils/helpers';
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 
-export default function HeroSpotlight({ movie }) {
+export default function HeroSpotlight({ movies = [] }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
     const contentRef = useRef(null);
     const buttonsRef = useRef(null);
     const particlesRef = useRef(null);
+
+    const movie = movies[currentIndex];
+
+    useEffect(() => {
+        if (!movies.length) return;
+
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % movies.length);
+        }, 8000); // 8 seconds auto-rotation
+
+        return () => clearInterval(timer);
+    }, [movies.length, currentIndex]);
 
     useEffect(() => {
         if (!movie || !contentRef.current) return;
@@ -50,9 +63,9 @@ export default function HeroSpotlight({ movie }) {
                 });
             });
         }
-    }, [movie]);
+    }, [currentIndex, movie]);
 
-    if (!movie) {
+    if (!movies.length || !movie) {
         return (
             <section className="px-6 lg:px-20 pt-24 pb-12">
                 <div className="relative h-[600px] rounded-[2rem] overflow-hidden skeleton"></div>
@@ -65,16 +78,28 @@ export default function HeroSpotlight({ movie }) {
     const mediaType = movie.media_type || 'movie';
     const rating = movie.vote_average?.toFixed(1) || 'N/A';
 
+    const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % movies.length);
+    const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + movies.length) % movies.length);
+
     return (
         <section className="px-6 lg:px-20 pt-24 pb-12">
             <div className="relative h-[600px] rounded-[2rem] overflow-hidden group shadow-2xl mx-auto max-w-[1440px]">
-                {/* Background */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                    style={{ backgroundImage: `url("${backdrop}")` }}
-                />
+
+                {/* Background Crossfade */}
+                <AnimatePresence mode="popLayout">
+                    <motion.div
+                        key={currentIndex}
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.2, ease: "easeInOut" }}
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url("${backdrop}")` }}
+                    />
+                </AnimatePresence>
+
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/40 to-transparent"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-bg-dark via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-bg-dark via-bg-dark/60 to-transparent"></div>
 
                 {/* Floating Particles */}
                 <div ref={particlesRef} className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -84,54 +109,85 @@ export default function HeroSpotlight({ movie }) {
                     <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-white/15 rounded-full blur-sm"></div>
                 </div>
 
-                {/* Content */}
-                <div ref={contentRef} className="absolute bottom-0 left-0 p-10 md:p-16 max-w-2xl z-10">
-                    <div className="hero-badge flex items-center gap-3 mb-6">
-                        <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
-                            Featured
-                        </span>
-                        <span className="flex items-center gap-1 text-primary text-sm font-bold">
-                            <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                            {rating} Rating
-                        </span>
-                    </div>
-
-                    <h2 className="hero-title text-5xl md:text-7xl font-black text-white mb-6 leading-none tracking-tighter uppercase italic">
-                        {title}
-                    </h2>
-
-                    <p className="hero-desc text-slate-300 text-lg mb-10 leading-relaxed font-light line-clamp-3">
-                        {movie.overview || 'No description available.'}
-                    </p>
-
-                    <div ref={buttonsRef} className="flex items-center gap-4 flex-wrap">
-                        <Link
-                            to={`/${mediaType}/${movie.id}`}
-                            className="flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-primary-glow glow-primary-hover"
-                        >
-                            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                            Play Now
-                        </Link>
-                        <Link
-                            to={`/${mediaType}/${movie.id}`}
-                            className="flex items-center gap-3 glass-morphism hover:bg-white/10 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all"
-                        >
-                            <span className="material-symbols-outlined">add</span>
-                            Watchlist
-                        </Link>
-                        <button className="w-14 h-14 flex items-center justify-center glass-morphism rounded-xl hover:bg-white/10 transition-all">
-                            <span className="material-symbols-outlined">info</span>
-                        </button>
-                    </div>
+                {/* Left/Right Arrow Controls */}
+                <div className="absolute inset-y-0 left-0 w-24 z-30 flex items-center justify-start px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button onClick={prevSlide} className="w-12 h-12 flex items-center justify-center rounded-full glass-morphism hover:bg-white/20 text-white transition-all hover:scale-110">
+                        <span className="material-symbols-outlined text-2xl">chevron_left</span>
+                    </button>
+                </div>
+                <div className="absolute inset-y-0 right-0 w-24 z-30 flex items-center justify-end px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button onClick={nextSlide} className="w-12 h-12 flex items-center justify-center rounded-full glass-morphism hover:bg-white/20 text-white transition-all hover:scale-110">
+                        <span className="material-symbols-outlined text-2xl">chevron_right</span>
+                    </button>
                 </div>
 
-                {/* Bottom right indicator */}
-                <div className="absolute bottom-10 right-10 hidden lg:flex flex-col gap-4 items-end">
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 p-10 md:p-16 md:pl-28 max-w-3xl z-20">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentIndex}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            ref={contentRef}
+                        >
+                            <div className="hero-badge flex items-center gap-3 mb-6">
+                                <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
+                                    Featured
+                                </span>
+                                <span className="flex items-center gap-1 text-primary text-sm font-bold">
+                                    <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                                    {rating} Rating
+                                </span>
+                            </div>
+
+                            <h2 className="hero-title text-5xl md:text-7xl font-black text-white mb-6 leading-none tracking-tighter uppercase italic">
+                                {title}
+                            </h2>
+
+                            <p className="hero-desc text-slate-300 text-lg mb-10 leading-relaxed font-light line-clamp-3">
+                                {movie.overview || 'No description available.'}
+                            </p>
+
+                            <div ref={buttonsRef} className="flex items-center gap-4 flex-wrap">
+                                <Link
+                                    to={`/${mediaType}/${movie.id}`}
+                                    className="flex items-center gap-3 bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-primary-glow glow-primary-hover hover:scale-105 active:scale-95 transition-all"
+                                >
+                                    <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                                    Play Now
+                                </Link>
+                                <Link
+                                    to={`/${mediaType}/${movie.id}`}
+                                    className="flex items-center gap-3 glass-morphism hover:bg-white/15 text-white px-8 py-4 rounded-xl font-bold text-lg border border-white/20 hover:scale-105 active:scale-95 transition-all"
+                                >
+                                    <span className="material-symbols-outlined">add</span>
+                                    Watchlist
+                                </Link>
+                                <Link
+                                    to={`/${mediaType}/${movie.id}`}
+                                    className="w-14 h-14 flex items-center justify-center glass-morphism border border-white/20 rounded-xl hover:bg-white/15 hover:scale-110 active:scale-95 transition-all"
+                                >
+                                    <span className="material-symbols-outlined text-white">info</span>
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* Bottom right indicators */}
+                <div className="absolute bottom-10 right-10 z-20 hidden lg:flex flex-col gap-4 items-end">
                     <p className="text-white/40 text-xs font-bold uppercase tracking-widest">Now Streaming</p>
                     <div className="flex gap-2">
-                        <div className="w-12 h-1 bg-primary rounded-full"></div>
-                        <div className="w-8 h-1 bg-white/20 rounded-full"></div>
-                        <div className="w-8 h-1 bg-white/20 rounded-full"></div>
+                        {movies.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentIndex(idx)}
+                                className={`h-1 rounded-full transition-all duration-500 ${idx === currentIndex ? 'w-12 bg-primary' : 'w-8 bg-white/20 hover:bg-white/40'}`}
+                                aria-label={`Go to slide ${idx + 1}`}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

@@ -37,7 +37,7 @@ export default function Navbar() {
     };
 
     return (
-        <header ref={navRef} className="fixed top-0 z-50 w-full border-b border-primary/10 bg-bg-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
+        <header ref={navRef} className="fixed top-0 z-50 w-full bg-gradient-to-b from-black/90 via-black/50 to-transparent px-6 lg:px-20 pt-6 pb-16 transition-all">
             <div className="mx-auto flex max-w-[1440px] items-center justify-between">
                 <div className="flex items-center gap-8">
                     <Link to="/" className="flex items-center gap-3 group">
@@ -98,8 +98,8 @@ export default function Navbar() {
                         </>
                     ) : (
                         <div className="flex items-center gap-3">
-                            <Link to="/login" className="text-sm font-medium hover:text-primary transition-colors">Login</Link>
-                            <Link to="/signup" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all shadow-primary-glow">Sign Up</Link>
+                            <Link to="/login" className="text-sm font-medium hover:text-primary transition-all hover:scale-105 active:scale-95">Login</Link>
+                            <Link to="/signup" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold shadow-primary-glow transition-all hover:scale-105 active:scale-95">Sign Up</Link>
                         </div>
                     )}
 

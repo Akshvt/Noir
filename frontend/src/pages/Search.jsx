@@ -58,7 +58,7 @@ export default function Search() {
                     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
                         <h2 className="border-accent-left text-lg font-bold uppercase tracking-tight mb-6">Movies ({movies.length})</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                            {movies.map((m, idx) => <MovieCard key={m.id} item={{ ...m, media_type: 'movie' }} index={idx} />)}
+                            {movies.map((m, idx) => <MovieCard key={m.id} item={{ ...m, media_type: 'movie' }} index={idx} className="w-full" />)}
                         </div>
                     </motion.section>
                 )}
@@ -67,7 +67,7 @@ export default function Search() {
                     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-12">
                         <h2 className="border-accent-left text-lg font-bold uppercase tracking-tight mb-6">TV Shows ({tvShows.length})</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                            {tvShows.map((m, idx) => <MovieCard key={m.id} item={{ ...m, media_type: 'tv' }} index={idx} />)}
+                            {tvShows.map((m, idx) => <MovieCard key={m.id} item={{ ...m, media_type: 'tv' }} index={idx} className="w-full" />)}
                         </div>
                     </motion.section>
                 )}

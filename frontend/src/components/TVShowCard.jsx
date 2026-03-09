@@ -3,7 +3,7 @@ import { backdropUrl } from '../api/tmdb';
 import { PLACEHOLDER_BACKDROP } from '../utils/helpers';
 import { useRef, useState, useCallback } from 'react';
 
-export default function TVShowCard({ item }) {
+export default function TVShowCard({ item, className }) {
     const title = item.name || item.title || 'Untitled';
     const backdrop = backdropUrl(item.backdrop_path, 'w780') || PLACEHOLDER_BACKDROP;
     const rating = item.vote_average?.toFixed(1) || 'N/A';
@@ -25,7 +25,7 @@ export default function TVShowCard({ item }) {
     }, []);
 
     return (
-        <Link to={`/tv/${item.id}`} className="movie-card group relative flex-none w-72 md:w-96 cursor-pointer block">
+        <Link to={`/tv/${item.id}`} className={`movie-card group relative cursor-pointer block ${className || 'flex-none w-72 md:w-96'}`}>
             <div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
