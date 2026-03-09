@@ -79,19 +79,21 @@ export default function Navbar() {
                                 <span className="material-symbols-outlined text-[20px]">bookmark</span>
                             </Link>
                             <div className="relative group">
-                                <div className="h-8 w-8 rounded-full bg-primary/20 border border-primary/40 overflow-hidden cursor-pointer flex items-center justify-center text-sm font-bold">
+                                <div className="h-8 w-8 rounded-full bg-primary/20 border border-primary/40 overflow-hidden cursor-pointer flex items-center justify-center text-sm font-bold text-white relative z-50">
                                     {user?.name?.[0]?.toUpperCase() || 'U'}
                                 </div>
-                                <div className="absolute right-0 top-12 w-52 glass-morphism rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                                    <div className="p-4 border-b border-white/10">
-                                        <p className="text-sm font-bold">{user?.name}</p>
-                                        <p className="text-xs text-slate-500">{user?.email}</p>
+                                <div className="absolute right-0 top-10 w-52 glass-morphism rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-40 bg-black/90 border border-glass-border shadow-2xl py-2">
+                                    <div className="px-4 py-3 border-b border-white/10 mb-2">
+                                        <p className="text-sm font-bold text-white truncate">{user?.name}</p>
+                                        <p className="text-xs text-slate-400 truncate">{user?.email}</p>
                                     </div>
-                                    <div className="p-2">
-                                        <Link to="/favorites" className="block px-3 py-2 text-sm text-slate-300 hover:text-primary hover:bg-white/5 rounded-lg transition-colors">Favorites</Link>
-                                        <Link to="/history" className="block px-3 py-2 text-sm text-slate-300 hover:text-primary hover:bg-white/5 rounded-lg transition-colors">Watch History</Link>
-                                        {user?.role === 'admin' && <Link to="/admin" className="block px-3 py-2 text-sm text-slate-300 hover:text-primary hover:bg-white/5 rounded-lg transition-colors">Admin</Link>}
-                                        <button onClick={handleLogout} className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors">Logout</button>
+                                    <div className="flex flex-col gap-1 px-2">
+                                        <Link to="/favorites" className="px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><span className="material-symbols-outlined text-lg">bookmark</span> Favorites</Link>
+                                        <Link to="/history" className="px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><span className="material-symbols-outlined text-lg">history</span> Watch History</Link>
+                                        {user?.role === 'admin' && (
+                                            <Link to="/admin" className="px-3 py-2 text-sm text-primary font-bold hover:bg-primary/20 rounded-lg transition-colors flex items-center gap-2 mt-1 border border-primary/20"><span className="material-symbols-outlined text-lg">admin_panel_settings</span> Dashboard</Link>
+                                        )}
+                                        <button onClick={handleLogout} className="mt-2 w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-colors flex items-center gap-2"><span className="material-symbols-outlined text-lg">logout</span> Logout</button>
                                     </div>
                                 </div>
                             </div>
