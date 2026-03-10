@@ -1,6 +1,6 @@
-# MovieStream – Full-Stack Movie Discovery Platform
+# Noir – Premium Cinematic Movie Discovery Platform
 
-A production-level movie streaming platform built with **React**, **Redux Toolkit**, **Node.js/Express**, **MongoDB**, and the **TMDB API**. Deployable to **Vercel** with frontend + backend on the same domain.
+A production-level dark & red-themed movie streaming platform built with **React**, **Redux Toolkit**, **Node.js/Express**, **MongoDB**, and the **TMDB API**. Deployable to **Vercel** with frontend + backend on the same domain.
 
 ## Tech Stack
 
@@ -45,7 +45,7 @@ cp frontend/.env.example frontend/.env
 
 **Backend** (`backend/.env`):
 ```env
-MONGO_URI=mongodb+srv://your_user:your_pass@cluster.mongodb.net/moviestream
+MONGO_URI=mongodb+srv://your_user:your_pass@cluster.mongodb.net/noir
 JWT_SECRET=your_random_secret_string
 PORT=5000
 NODE_ENV=development
@@ -106,7 +106,7 @@ In Vercel Dashboard, add environment variables:
 ### User Features
 - ❤️ Favorites — Add/remove, persisted in database
 - 📜 Watch History — Auto-logged on movie visits
-- 🌙 Dark cinema theme
+- 🔴 Premium Red Cinematic Theme — Glassmorphism, tailored red styling, and dark backgrounds
 
 ### Admin Dashboard
 - 📊 Stats overview
@@ -137,7 +137,7 @@ In Vercel Dashboard, add environment variables:
 ## Project Structure
 
 ```
-moviestream/
+noir/
 ├── api/index.js          ← Vercel serverless entry
 ├── vercel.json           ← Vercel config
 ├── backend/
